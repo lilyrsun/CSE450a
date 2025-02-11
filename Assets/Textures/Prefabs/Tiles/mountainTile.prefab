@@ -48,17 +48,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3666338308950123026, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.9375
+      objectReference: {fileID: 0}
+    - target: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 191041443, guid: 0f0e279baa0ec9f41a6d2092febaf1db, type: 3}
     - target: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       propertyPath: m_Color.b
-      value: 0.31729352
+      value: 0.95294124
       objectReference: {fileID: 0}
     - target: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       propertyPath: m_Color.g
-      value: 0.34207866
+      value: 0.95294124
       objectReference: {fileID: 0}
     - target: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       propertyPath: m_Color.r
-      value: 0.38364768
+      value: 0.95294124
       objectReference: {fileID: 0}
     - target: {fileID: 7616719430607714875, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       propertyPath: m_Name

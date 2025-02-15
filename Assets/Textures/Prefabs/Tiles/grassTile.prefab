@@ -68,9 +68,17 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.64705884
       objectReference: {fileID: 0}
+    - target: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7616719430607714875, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       propertyPath: m_Name
       value: grassTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616719430607714875, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109,5 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 435454484763271373}
   _highlight: {fileID: 6457578933486607612}
+  _isWalkable: 1
+  OccupiedUnit: {fileID: 0}
   _baseColor: {r: 0, g: 0.4509804, b: 0, a: 1}
   _offsetColor: {r: 0, g: 0.4117647, b: 0, a: 1}

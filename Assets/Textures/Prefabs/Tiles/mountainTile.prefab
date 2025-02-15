@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mountainTile
       objectReference: {fileID: 0}
+    - target: {fileID: 7616719430607714875, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

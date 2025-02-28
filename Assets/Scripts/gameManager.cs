@@ -46,6 +46,7 @@ public class gameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
+        Debug.Log("Changing game state to: " + newState);
         Gamestate = newState;
 
         if (newState == GameState.Win || newState == GameState.Lose)
@@ -54,6 +55,7 @@ public class gameManager : MonoBehaviour
             UpgradeGoldButton.interactable = false;
             SpawnFriendlyUnitButton.interactable = false;
         }
+        
         else
         {
             EndTurnButton.interactable = true;
@@ -103,6 +105,8 @@ public class gameManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
+        Debug.Log("Game state changed successfully to: " + newState);
+
     }
 
     public void UpdateUpgradeGoldButtonDisplay()
@@ -161,6 +165,14 @@ public class gameManager : MonoBehaviour
             }
             unit.MoveNPCToBase(unit);
             yield return new WaitForSeconds(delayTime);
+        }
+    }
+
+    public void RegeneratePlayerUnits()
+    {
+        foreach (var unit in FindObjectsOfType<basePlayerUnit>())
+        {
+            unit.RegenerateHealth(10); 
         }
     }
 }

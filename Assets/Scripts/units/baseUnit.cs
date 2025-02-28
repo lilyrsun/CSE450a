@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;  // Import for UI elements
+using UnityEngine.UI;
 
 public class baseUnit : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class baseUnit : MonoBehaviour
     public Faction Faction;
     public HealthSystem Health;
     public bool hasMoved { get; set; }
+    public bool hasAttacked { get; set; }  
 
     public Image healthBarFill;
 
@@ -16,6 +17,7 @@ public class baseUnit : MonoBehaviour
     {
         Health = new HealthSystem(MaxHealth, this);
         hasMoved = false;
+        hasAttacked = false;  
 
         if (healthBarFill != null)
         {
@@ -48,5 +50,21 @@ public class baseUnit : MonoBehaviour
     public virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void RegenerateHealth(int amount)
+    {
+        if (!hasMoved && !hasAttacked)
+        {
+            Health.heal(amount);
+            UpdateHealthBar();
+            Debug.Log(name + " healed for " + amount + " HP!");
+        }
+    }
+
+    public void ResetTurnState()
+    {
+        hasMoved = false;
+        hasAttacked = false;
     }
 }

@@ -1,3 +1,4 @@
+using UnityEngine;
 
 public class HealthSystem 
 {
@@ -19,13 +20,17 @@ public class HealthSystem
 
     public void damage(int damageAmount)
     {
-        health -= damageAmount;
+        health = Mathf.Max(0, health - damageAmount);
         if (health <= 0) owner.Die();
     }
+
+    public void heal(int amount)
+    {
+        health = Mathf.Min(healthMax, health + amount); // Fixed incorrect variable names
+    }
+
     public int getMaxHealth()
-{
-    return healthMax;
-}
-
-
+    {
+        return healthMax;
+    }
 }

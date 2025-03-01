@@ -51,8 +51,27 @@ public class GridManager : MonoBehaviour
 
     public Tile GetUnitSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x < _width / 3 && t.Value.walkable && !(t.Key.x == 3 && t.Key.y == 10)).OrderBy(t => Random.value).First().Value;
+        int leftBoundary = 1;                           
+        int rightBoundary = (_width / 3) - 1;           
+        int topBoundary = 1;                            
+        int bottomBoundary = _height - 2;                
+
+        return _tiles
+            .Where(t =>
+                t.Key.x >= leftBoundary && t.Key.x <= rightBoundary &&  
+                t.Key.y >= topBoundary && t.Key.y <= bottomBoundary &&  
+                t.Value.walkable &&                                    
+                !(t.Key.x == 3 && t.Key.y == 10)                       
+            )
+            .OrderBy(t => Random.value)
+            .FirstOrDefault().Value;
     }
+
+
+    //public Tile GetUnitSpawnTile()
+    //{
+    //    return _tiles.Where(t => t.Key.x < _width / 3 && t.Value.walkable && !(t.Key.x == 3 && t.Key.y == 10)).OrderBy(t => Random.value).First().Value;
+    //}
 
     public Tile GetNPCUnitSpawnTile()
     {

@@ -6,6 +6,7 @@ public abstract class Tile : MonoBehaviour
 {
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
+    [SerializeField] private GameObject _AttackHighlight;
     [SerializeField] private bool _isWalkable;
 
     public baseUnit OccupiedUnit;
@@ -36,6 +37,7 @@ public abstract class Tile : MonoBehaviour
 
         if (OccupiedUnit != null)
         {
+            //Debug.Log("AHHHHHHHHHHHHHHHHHHHH" + " " + OccupiedUnit.Faction);
             if (OccupiedUnit.Faction == Faction.Player)
             {
                 unitManager.Instance.setSelectedPlayerUnit((basePlayerUnit)OccupiedUnit);
@@ -55,6 +57,8 @@ public abstract class Tile : MonoBehaviour
                         enemy.TakeDamage(34);
                         unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true;
                         unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
+                        unitManager.Instance.SelectedBasePlayerUnit.UpdateMoveIndicator();
+                        unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                         unitManager.Instance.setSelectedPlayerUnit(null);
                         ClearHighlightedTiles();
                     }
@@ -70,7 +74,8 @@ public abstract class Tile : MonoBehaviour
                 if (IsWithinMoveRange(unitManager.Instance.SelectedBasePlayerUnit.OccuppiedTile, this))
                 {
                     SetUnit(unitManager.Instance.SelectedBasePlayerUnit);
-                    unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true; 
+                    unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true;
+                    unitManager.Instance.SelectedBasePlayerUnit.UpdateMoveIndicator();
                     unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                     unitManager.Instance.setSelectedPlayerUnit(null);
                     ClearHighlightedTiles();
@@ -105,9 +110,18 @@ public abstract class Tile : MonoBehaviour
 
         foreach (var tile in allTiles)
         {
-            if (IsWithinMoveRange(unit.OccuppiedTile, tile) && tile.walkable)
+            if (IsWithinMoveRange(unit.OccuppiedTile, tile))
             {
-                tile._highlight.SetActive(true);
+                if (tile.OccupiedUnit != null && tile.OccupiedUnit.Faction != unit.Faction)
+                {
+                    //Debug.Log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH "+"Enemy unit found, highlighting attack tile");
+                    tile._AttackHighlight.SetActive(true);
+                }
+                else if (tile.walkable)
+                {
+                    tile._highlight.SetActive(true);
+                }
+
                 tile.isHighlighted = true;
             }
         }
@@ -119,6 +133,7 @@ public abstract class Tile : MonoBehaviour
         foreach (var tile in allTiles)
         {
             tile._highlight.SetActive(false);
+            tile._AttackHighlight.SetActive(false); // Reset enemy highlight
             tile.isHighlighted = false;
         }
     }

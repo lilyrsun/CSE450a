@@ -12,6 +12,7 @@ public class baseUnit : MonoBehaviour
     public bool hasAttacked { get; set; }  
 
     public Image healthBarFill;
+    private GameObject moveIndicator;
 
     public void Initialize(int MaxHealth)
     {
@@ -23,6 +24,8 @@ public class baseUnit : MonoBehaviour
         {
             healthBarFill.fillAmount = 1f;
         }
+        MoveIndicator(); 
+        UpdateMoveIndicator(); 
     }
 
     public virtual void TakeDamage(int damage)
@@ -62,9 +65,35 @@ public class baseUnit : MonoBehaviour
         }
     }
 
+
+    private void MoveIndicator()
+    {
+        if (!(this is playerKnight)) return;
+        moveIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        moveIndicator.transform.SetParent(transform);
+        moveIndicator.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        moveIndicator.transform.localPosition = new Vector3(-.5f, 0.55f, 0);
+        Material brightWhiteMaterial = new Material(Shader.Find("Standard"));
+        brightWhiteMaterial.color = Color.white;
+        brightWhiteMaterial.EnableKeyword("_EMISSION");
+        brightWhiteMaterial.SetColor("_EmissionColor", Color.white * 3f);
+        moveIndicator.GetComponent<Renderer>().material = brightWhiteMaterial;
+        moveIndicator.SetActive(false); 
+    }
+
+    public void UpdateMoveIndicator()
+    {
+        if (moveIndicator != null)
+        {
+            moveIndicator.SetActive(!hasMoved);
+        }
+    }
+
     public void ResetTurnState()
     {
         hasMoved = false;
         hasAttacked = false;
+        UpdateMoveIndicator();
+        //Debug.Log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh");
     }
 }

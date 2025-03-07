@@ -45,8 +45,9 @@ public class EndTurnButton : MonoBehaviour
         {
             if (tile.OccupiedUnit != null && tile.OccupiedUnit is basePlayerUnit playerUnit)
             {
-                playerUnit.hasMoved = false;
-                playerUnit.hasAttacked = false;
+                //playerUnit.hasMoved = false;
+                //playerUnit.hasAttacked = false;
+                playerUnit.ResetTurnState();
             }
         }
     }

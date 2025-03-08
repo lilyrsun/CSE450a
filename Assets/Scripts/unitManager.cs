@@ -8,8 +8,15 @@ public class unitManager : MonoBehaviour
     public static unitManager Instance;
     private List<scriptableUnit> _units;
 
-    public baseUnit SpawnedTownHall { get; private set; } // Stores the player town hall for the check
+    public baseUnit SpawnedTownHall { get; private set; } 
     public basePlayerUnit SelectedBasePlayerUnit;
+
+    public int spawnUnitCost = 20;
+
+    private Dictionary<string, int> unitCosts = new Dictionary<string, int>
+    {
+        { "playerKnight", 20 }
+    };
 
     private void Awake()
     {
@@ -21,7 +28,7 @@ public class unitManager : MonoBehaviour
     public void SpawnUnit()
     {
         var heroCount = 1;
-        for (int i = 0; i <heroCount; ++i)
+        for (int i = 0; i < heroCount; ++i)
         {
             //var randomPrefab = getRandomUnit<basePlayerUnit>(Faction.Player);
             var spawnedUnit = Instantiate(Resources.Load<scriptableUnit>("Units/playerKnight")?.Unitprefab);
@@ -34,7 +41,7 @@ public class unitManager : MonoBehaviour
         }
         var townHallPrefab = Resources.Load<scriptableUnit>("Units/playerTownHall")?.Unitprefab;
         var playerTH = Instantiate(townHallPrefab);
-        playerTH.Initialize(272); 
+        playerTH.Initialize(272);
         var fixedTile = GridManager.Instance.GetTileAtPosition(3, 10);
         fixedTile.SetUnit(playerTH);
         SpawnedTownHall = playerTH; // Store the town hall for check
@@ -43,6 +50,8 @@ public class unitManager : MonoBehaviour
 
         gameManager.Instance.ChangeState(GameState.SpawnEnemies);
     }
+
+
 
     public void SpawnNPCUnits()
     {
@@ -69,10 +78,14 @@ public class unitManager : MonoBehaviour
     }
 
     public void SpawnFriendlyUnit() {
-        if (gameManager.Instance.gold >= 20)
+        if (gameManager.Instance.gold >= spawnUnitCost)
         {
-            gameManager.Instance.gold -= 20;
+            gameManager.Instance.gold -= spawnUnitCost;
+            spawnUnitCost = Mathf.RoundToInt(spawnUnitCost * 1.5f);
             gameManager.Instance.UpdateGoldUI();
+            gameManager.Instance.UpdateUpgradeButtonDisplay();
+
+            Debug.Log(spawnUnitCost);
 
             var spawnedUnit = Instantiate(Resources.Load<scriptableUnit>("Units/playerKnight")?.Unitprefab);
             var randomSpawnTile = GridManager.Instance.GetUnitSpawnTile();

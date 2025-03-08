@@ -127,7 +127,7 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    public void UpdateUpgradeGoldButtonDisplay()
+    public void UpdateUpgradeButtonDisplay()
     {
         if (UpgradeGoldButton != null)
         {
@@ -135,6 +135,15 @@ public class gameManager : MonoBehaviour
             if (buttonText != null)
             {
                 buttonText.text = "2x Gold (" + upgradeGoldCost.ToString() + ")";
+            }
+        }
+
+        if (SpawnFriendlyUnitButton != null)
+        { 
+            TextMeshProUGUI buttonText = SpawnFriendlyUnitButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Recruit Unit (" + unitManager.Instance.spawnUnitCost.ToString() + ")";
             }
         }
     }
@@ -153,7 +162,7 @@ public class gameManager : MonoBehaviour
             goldPerTurn *= 2;
             upgradeGoldCost = Mathf.RoundToInt(upgradeGoldCost * 1.5f);
             UpdateGoldUI();
-            UpdateUpgradeGoldButtonDisplay();
+            UpdateUpgradeButtonDisplay();
         }
     }
 

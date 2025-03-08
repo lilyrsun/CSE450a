@@ -92,6 +92,7 @@ public class gameManager : MonoBehaviour
             case GameState.EnemiesTurn:
                 Debug.Log("NPC TURN START");
                 MoveAllNPCs();
+                CheckGameOver();
                 this.ChangeState(GameState.PlayersTurn);
                 break;
             case GameState.Win:
@@ -107,6 +108,23 @@ public class gameManager : MonoBehaviour
         }
         Debug.Log("Game state changed successfully to: " + newState);
 
+    }
+     private void CheckGameOver()
+    {
+        if (unitManager.Instance.SpawnedTownHall == null) // ✅ If player's town hall is destroyed
+        {
+            Debug.Log("🏰 Player's town hall is destroyed! Game over.");
+            ChangeState(GameState.Lose);
+            return;
+        }
+
+        var allEnemies = FindObjectsOfType<baseNPCUnit>();
+        if (allEnemies.Length == 0) // ✅ If all enemies are gone
+        {
+            Debug.Log("🏆 All enemies defeated! You win.");
+            ChangeState(GameState.Win);
+            return;
+        }
     }
 
     public void UpdateUpgradeGoldButtonDisplay()

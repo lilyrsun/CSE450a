@@ -71,13 +71,13 @@ public class baseUnit : MonoBehaviour
         if (!(this is playerKnight)) return;
         moveIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         moveIndicator.transform.SetParent(transform);
+
+        var red = Color.red;
+        var lightRed = new Color(red.r * 1.5f, red.g * 1.5f, red.b * 1.5f);
+        moveIndicator.GetComponent<Renderer>().material.color = lightRed;
+
         moveIndicator.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         moveIndicator.transform.localPosition = new Vector3(-.5f, 0.55f, 0);
-        Material brightWhiteMaterial = new Material(Shader.Find("Standard"));
-        brightWhiteMaterial.color = Color.white;
-        brightWhiteMaterial.EnableKeyword("_EMISSION");
-        brightWhiteMaterial.SetColor("_EmissionColor", Color.white * 3f);
-        moveIndicator.GetComponent<Renderer>().material = brightWhiteMaterial;
         moveIndicator.SetActive(false); 
     }
 

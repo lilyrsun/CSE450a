@@ -68,6 +68,21 @@ public class unitManager : MonoBehaviour
 
     }
 
+    public void SpawnNPCWave()
+    {
+        var spawnedNPCUnit = Instantiate(Resources.Load<scriptableUnit>("Units/NPCKnight")?.Unitprefab);
+        var spawnedNPCUnit2 = Instantiate(Resources.Load<scriptableUnit>("Units/NPCKnight")?.Unitprefab);
+        
+        var randomSpawnTile = GridManager.Instance.GetNPCUnitSpawnTile();
+        var randomSpawnTile2 = GridManager.Instance.GetNPCUnitSpawnTile();
+
+        spawnedNPCUnit.Initialize(100);
+        randomSpawnTile.SetUnit(spawnedNPCUnit);
+        spawnedNPCUnit2.Initialize(100);
+        randomSpawnTile2.SetUnit(spawnedNPCUnit2);
+
+    }
+
     public void SpawnFriendlyUnit() {
         if (gameManager.Instance.gold >= 20)
         {

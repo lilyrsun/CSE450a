@@ -14,6 +14,8 @@ public class gameManager : MonoBehaviour
     public int goldPerTurn = 10;
     public int upgradeGoldCost = 50;
     public TMPro.TextMeshProUGUI goldDisplay;
+    public int turnTrack = 1;
+    public int spawnTrack = 5;
 
     public GameObject PlayAgainButton;
     public GameObject GameOverPanel;  
@@ -90,7 +92,14 @@ public class gameManager : MonoBehaviour
                 Debug.Log("PLAYER TURN START");
                 break;
             case GameState.EnemiesTurn:
+                turnTrack += 1;
                 Debug.Log("NPC TURN START");
+                if(turnTrack == spawnTrack)
+                {
+                    //spawn
+                    unitManager.Instance.SpawnNPCWave();
+                    spawnTrack += 5;
+                }
                 MoveAllNPCs();
                 this.ChangeState(GameState.PlayersTurn);
                 break;

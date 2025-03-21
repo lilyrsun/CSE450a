@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class baseNPCUnit : baseUnit
 {
+
    public override void TakeDamage(int damage)
     {
         Debug.Log("⚔️ NPC TakeDamage() Called - Before: " + Health.getHealth());

@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
     [SerializeField] private int _width, _height;
-    [SerializeField] private Tile _grassTile, _mountainTile;
+    [SerializeField] private Tile _grassTile, _mountainTile, _waterTile;
     [SerializeField] private Transform _cam;
     private Dictionary<Vector2, Tile> _tiles;
 
@@ -25,17 +25,20 @@ public class GridManager : MonoBehaviour
         float xOffset = size * 1.5f;
         _tiles = new Dictionary<Vector2, Tile>();
 
-        for (int x = 0; x < _width-2; x++)
+        for (int x = 0; x < _width - 2; x++)
         {
-            for (int y = 0; y < _height+10; y++)
+            for (int y = 0; y < _height + 10; y++)
             {
-                float yPos = (y * yOffset)/2;
-                float xPos = x * xOffset-2;
+                float yPos = (y * yOffset) / 2;
+                float xPos = x * xOffset - 2;
                 if (y % 2 == 1)
                 {
                     xPos += xOffset / 2;
                 }
-                Tile tileToSpawn = /*(x == 5 && y == 15 || x == 5 && y == 13 || x == 6 && y == 14 || x == 6 && y == 12 || x == 7 && y ==4 || x == 7 && y == 6 || x == 7 && y == 5 || x == 7 && y == 3) ? _mountainTile :*/ _grassTile;
+
+                //bool isWaterTile = ((x == 1 && y % 2 == 0 && x >= 2 && x <= 16) || (x == 1 && (y == 17 || y == 3)) || (y == 1 || y == 2 || y == 0) || (x == 12 && y % 2 == 0) || (y == 17 || y == 18) || (x <= 4 && x >= 7 && (y == 15 || y ==16)) || (x == 11 && y == 16 || y == 15));
+                bool isMountainTile = ((x == 0 && y == 0) || (x == 0 && y >= 1 && y <= 17) || x ==13 || (x == 12 && y % 2 != 0));
+                Tile tileToSpawn = /*isWaterTile ? _waterTile :*/ (x == 10 && y == 7 || x == 10 && y == 8 || x == 11 && y == 8 || x == 9 && y == 12 || x == 9 && y == 10 || x == 7 && y == 15 || x == 8 && y == 16 || isMountainTile) ? _mountainTile : _grassTile;
 
                 var spawnedTile = Instantiate(tileToSpawn, new Vector3(xPos-7.64f, yPos-4.21f, 0), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";

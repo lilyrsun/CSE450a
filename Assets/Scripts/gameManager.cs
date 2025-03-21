@@ -156,12 +156,22 @@ public class gameManager : MonoBehaviour
             }
         }
     }
-
     private void AddGold()
     {
+        int unitCount = Mathf.Max(0, unitManager.Instance.GetPlayerUnitCount() - 2); // Subtract 2 for initial tower & unit
+        int maintenanceCost = unitCount * 1;
+
         gold += goldPerTurn;
+        gold -= maintenanceCost;
+
+        if (gold < 0) gold = 0;
+
         UpdateGoldUI();
+        Debug.Log($"Turn Gold: +{goldPerTurn}, Maintenance: -{maintenanceCost}, Total Gold: {gold}");
     }
+
+
+
 
     public void UpgradeGold()
     {

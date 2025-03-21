@@ -51,6 +51,10 @@ public class unitManager : MonoBehaviour
         gameManager.Instance.ChangeState(GameState.SpawnEnemies);
     }
 
+        public int GetPlayerUnitCount()
+    {
+        return FindObjectsOfType<basePlayerUnit>().Length;
+    }
 
 
     public void SpawnNPCUnits()

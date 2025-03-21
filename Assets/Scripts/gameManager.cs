@@ -101,6 +101,7 @@ public class gameManager : MonoBehaviour
                     spawnTrack += 5;
                 }
                 MoveAllNPCs();
+                CheckGameOver();
                 this.ChangeState(GameState.PlayersTurn);
                 break;
             case GameState.Win:
@@ -117,8 +118,25 @@ public class gameManager : MonoBehaviour
         Debug.Log("Game state changed successfully to: " + newState);
 
     }
+     private void CheckGameOver()
+    {
+        if (unitManager.Instance.SpawnedTownHall == null) // ✅ If player's town hall is destroyed
+        {
+            Debug.Log("🏰 Player's town hall is destroyed! Game over.");
+            ChangeState(GameState.Lose);
+            return;
+        }
 
-    public void UpdateUpgradeGoldButtonDisplay()
+        var allEnemies = FindObjectsOfType<baseNPCUnit>();
+        if (allEnemies.Length == 0) // ✅ If all enemies are gone
+        {
+            Debug.Log("🏆 All enemies defeated! You win.");
+            ChangeState(GameState.Win);
+            return;
+        }
+    }
+
+    public void UpdateUpgradeButtonDisplay()
     {
         if (UpgradeGoldButton != null)
         {
@@ -126,6 +144,15 @@ public class gameManager : MonoBehaviour
             if (buttonText != null)
             {
                 buttonText.text = "2x Gold (" + upgradeGoldCost.ToString() + ")";
+            }
+        }
+
+        if (SpawnFriendlyUnitButton != null)
+        { 
+            TextMeshProUGUI buttonText = SpawnFriendlyUnitButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Recruit Unit (" + unitManager.Instance.spawnUnitCost.ToString() + ")";
             }
         }
     }
@@ -144,7 +171,7 @@ public class gameManager : MonoBehaviour
             goldPerTurn *= 2;
             upgradeGoldCost = Mathf.RoundToInt(upgradeGoldCost * 1.5f);
             UpdateGoldUI();
-            UpdateUpgradeGoldButtonDisplay();
+            UpdateUpgradeButtonDisplay();
         }
     }
 

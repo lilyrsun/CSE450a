@@ -56,6 +56,8 @@ public abstract class Tile : MonoBehaviour
                     {
                         enemy.TakeDamage(34);
                         unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true;
+                        gameManager.Instance.CheckIfAllPlayerUnitsMoved();
+
                         unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                         unitManager.Instance.SelectedBasePlayerUnit.UpdateMoveIndicator();
                         unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
@@ -75,6 +77,8 @@ public abstract class Tile : MonoBehaviour
                 {
                     SetUnit(unitManager.Instance.SelectedBasePlayerUnit);
                     unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true;
+                    gameManager.Instance.CheckIfAllPlayerUnitsMoved();
+
                     unitManager.Instance.SelectedBasePlayerUnit.UpdateMoveIndicator();
                     unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                     unitManager.Instance.setSelectedPlayerUnit(null);

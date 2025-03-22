@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class gameManager : MonoBehaviour
 {
@@ -221,6 +222,20 @@ public class gameManager : MonoBehaviour
             unit.RegenerateHealth(10); 
         }
     }
+
+    public void CheckIfAllPlayerUnitsMoved()
+    {
+        var allPlayerUnits = FindObjectsOfType<basePlayerUnit>();
+
+        // Only count units that are NOT the town hall
+        var movableUnits = allPlayerUnits.Where(unit => unit != unitManager.Instance.SpawnedTownHall).ToList();
+
+        bool allMoved = movableUnits.All(unit => unit.hasMoved);
+
+        Debug.Log("All movable player units moved: " + allMoved);
+        EndTurnButton.GetComponent<EndTurnButton>().SetGlow(allMoved);
+    }
+
 }
 
 public enum GameState

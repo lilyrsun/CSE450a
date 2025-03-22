@@ -6,12 +6,18 @@ using UnityEngine.UI;
 public class EndTurnButton : MonoBehaviour
 {
     [SerializeField] private Button endTurnButton;
+    [SerializeField] private GameObject glowRadiusObject;
 
     private void Awake()
     {
         if (endTurnButton != null)
         {
             endTurnButton.onClick.AddListener(EndTurn);
+        }
+
+        if (glowRadiusObject != null)
+        {
+            glowRadiusObject.SetActive(false);
         }
     }
 
@@ -34,9 +40,9 @@ public class EndTurnButton : MonoBehaviour
         gameManager.Instance.ChangeState(GameState.EnemiesTurn);
 
         Debug.Log("NPC turn started successfully.");
+
+        SetGlow(false);
     }
-
-
 
     private void ResetAllUnits()
     {
@@ -49,6 +55,20 @@ public class EndTurnButton : MonoBehaviour
                 //playerUnit.hasAttacked = false;
                 playerUnit.ResetTurnState();
             }
+        }
+    }
+
+    public void SetGlow(bool glow)
+    {
+        Debug.Log("SetGlow called. Setting glow to: " + glow);
+
+        if (glowRadiusObject != null)
+        {
+            glowRadiusObject.SetActive(glow);
+        }
+        else
+        {
+            Debug.LogWarning("glowRadiusObject is not assigned in the Inspector.");
         }
     }
 

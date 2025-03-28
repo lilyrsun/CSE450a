@@ -36,9 +36,9 @@ public class GridManager : MonoBehaviour
                     xPos += xOffset / 2;
                 }
 
-                //bool isWaterTile = ((x == 1 && y % 2 == 0 && x >= 2 && x <= 16) || (x == 1 && (y == 17 || y == 3)) || (y == 1 || y == 2 || y == 0) || (x == 12 && y % 2 == 0) || (y == 17 || y == 18) || (x <= 4 && x >= 7 && (y == 15 || y ==16)) || (x == 11 && y == 16 || y == 15));
+                bool isWaterTile = ((x == 1 && y % 2 == 0 && y != 0 && y <=16) || (x == 1 && (y == 17 || y == 3)) || (y == 1 || x != 4 && x != 3 && y == 2 || y == 0) || (x == 12 && y % 2 == 0) || (y == 17 || y == 18) || (x <= 4 && x >= 7 && (y == 15 || y ==16)) || (x == 11 && y == 16 || y == 15));
                 bool isMountainTile = ((x == 0 && y == 0) || (x == 0 && y >= 1 && y <= 17) || x ==13 || (x == 12 && y % 2 != 0));
-                Tile tileToSpawn = /*isWaterTile ? _waterTile :*/ (x == 10 && y == 7 || x == 10 && y == 8 || x == 11 && y == 8 || x == 9 && y == 12 || x == 9 && y == 10 || x == 7 && y == 15 || x == 8 && y == 16 || isMountainTile) ? _mountainTile : _grassTile;
+                Tile tileToSpawn = isWaterTile ? _waterTile : (x == 10 && y == 7 || x == 10 && y == 8 || x == 11 && y == 8 || x == 9 && y == 12 || x == 9 && y == 10 || x == 7 && y == 15 || x == 8 && y == 16 || isMountainTile) ? _mountainTile : _grassTile;
 
                 var spawnedTile = Instantiate(tileToSpawn, new Vector3(xPos-7.64f, yPos-4.21f, 0), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";

@@ -31,6 +31,11 @@ public abstract class Tile : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        ClearHighlightedTiles();
+    }
+
     private void OnMouseDown()
     {
         if (gameManager.Instance.Gamestate != GameState.PlayersTurn) return;
@@ -103,6 +108,12 @@ public abstract class Tile : MonoBehaviour
 
         float xDif = Mathf.Abs(currentPos.x - targetPos.x);
         float yDif = Mathf.Abs(currentPos.y - targetPos.y);
+
+        bool inWater = currentTile is waterTile;
+        if (inWater)
+        {
+            return (xDif <= 1 && yDif <= 1);
+        }
 
         return (xDif <= 2 && yDif <= 2) || (yDif <= 2 && xDif == 0);
     }

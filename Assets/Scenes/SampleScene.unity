@@ -5648,7 +5648,7 @@ MonoBehaviour:
   _height: 9
   _grassTile: {fileID: 3297551015845032886, guid: eded1ad9a504fcd4c93aafd8063b622a, type: 3}
   _mountainTile: {fileID: -2124863793412837887, guid: 2765bd3b86f55e64baa40c315ad51406, type: 3}
-  _waterTile: {fileID: 0}
+  _waterTile: {fileID: 7507242193338428513, guid: e4c277da304bd4f4d853ee8aba7fcb1d, type: 3}
   _cam: {fileID: 519420032}
 --- !u!4 &2091015533
 Transform:

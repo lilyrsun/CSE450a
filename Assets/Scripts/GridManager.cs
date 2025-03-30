@@ -49,7 +49,10 @@ public class GridManager : MonoBehaviour
         }
         //_cam.transform.position = new Vector3((float)_width/2, (float)_height / 2 - 0.5f, -10);
 
+
         gameManager.Instance.ChangeState(GameState.SpawnUnit);
+        StartCoroutine(DelayedFogInit());
+
     }
 
     public Tile GetUnitSpawnTile()
@@ -95,4 +98,18 @@ public class GridManager : MonoBehaviour
     {
         
     }
+    private IEnumerator DelayedFogInit()
+    {
+        yield return new WaitForSeconds(0.1f); // give Unity a frame to catch up
+
+        foreach (var tile in FindObjectsOfType<Tile>())
+        {
+            tile.isRevealed = false;
+            tile.isVisible = false;
+            tile.UpdateFog();
+        }
+
+        gameManager.Instance.RevealTilesAroundUnits();
+    }
+
 }

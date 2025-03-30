@@ -235,6 +235,40 @@ public class gameManager : MonoBehaviour
         Debug.Log("All movable player units moved: " + allMoved);
         EndTurnButton.GetComponent<EndTurnButton>().SetGlow(allMoved);
     }
+    public void RevealTilesAroundUnits()
+    {
+        var allTiles = FindObjectsOfType<Tile>();
+        var playerUnits = FindObjectsOfType<basePlayerUnit>();
+
+        foreach (var tile in allTiles)
+        {
+            tile.isVisible = false; // Reset visibility
+        }
+
+        foreach (var unit in playerUnits)
+        {
+            if (unit == unitManager.Instance.SpawnedTownHall) continue;
+
+            var origin = unit.OccuppiedTile;
+            if (origin == null) continue;
+
+            foreach (var tile in allTiles)
+            {
+               float distance = Vector2.Distance(tile.transform.position, origin.transform.position);
+                if (distance <= 4f)
+                {
+                    tile.isVisible = true;
+                    tile.isRevealed = true;
+                }
+            }
+        }
+
+        foreach (var tile in allTiles)
+        {
+            tile.UpdateFog();
+        }
+    }
+
 
 }
 

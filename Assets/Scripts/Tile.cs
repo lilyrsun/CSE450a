@@ -10,6 +10,7 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private bool _isWalkable;
 
     public baseUnit OccupiedUnit;
+    
     public bool walkable => _isWalkable && OccupiedUnit == null;
 
     public virtual void Init(int x, int y)
@@ -99,6 +100,8 @@ public abstract class Tile : MonoBehaviour
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccuppiedTile = this;
+        gameManager.Instance.RevealTilesAroundUnits();
+
     }
 
     public bool IsWithinMoveRange(Tile currentTile, Tile targetTile)
@@ -152,4 +155,19 @@ public abstract class Tile : MonoBehaviour
             tile.isHighlighted = false;
         }
     }
+
+    public bool isRevealed = false;
+    public bool isVisible = false;
+    public GameObject fogOverlay; // Drag a dark semi-transparent UI sprite over each tile in the editor
+
+  public void UpdateFog()
+    {
+        if (fogOverlay != null && fogOverlay.GetComponent<SpriteRenderer>() != null)
+        {
+            bool shouldBeActive = !isVisible && !isRevealed;
+            fogOverlay.SetActive(shouldBeActive);
+        }
+    }
+
+
 }

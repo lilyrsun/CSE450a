@@ -48,6 +48,8 @@ public class unitManager : MonoBehaviour
         //Debug.Log(fixedUnit);
         //Debug.Log("DID IT WORK");
 
+        gameManager.Instance.RevealTilesAroundUnits();
+
         gameManager.Instance.ChangeState(GameState.SpawnEnemies);
     }
 

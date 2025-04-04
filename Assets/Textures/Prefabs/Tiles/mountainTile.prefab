@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8978254411457405451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1658022760528290863}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1658022760528290863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8978254411457405451}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1767086148258684439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4353519593826496290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,7 +109,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2661412410132525365, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1658022760528290863}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7616719430607714875, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
       insertIndex: -1
@@ -87,6 +121,11 @@ PrefabInstance:
 --- !u!212 &1115510784903213758 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3679960033593843100, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
+  m_PrefabInstance: {fileID: 4353519593826496290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1767086148258684439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2661412410132525365, guid: 4c56b829701312942827b68b5cc868ca, type: 3}
   m_PrefabInstance: {fileID: 4353519593826496290}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &5831582617910922895 stripped
@@ -113,3 +152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 1115510784903213758}
   _highlight: {fileID: 5831582617910922895}
+  _AttackHighlight: {fileID: 0}
+  _isWalkable: 0
+  OccupiedUnit: {fileID: 0}
+  isRevealed: 0
+  isVisible: 0
+  fogOverlay: {fileID: 8978254411457405451}

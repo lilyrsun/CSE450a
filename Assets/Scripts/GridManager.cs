@@ -36,52 +36,66 @@ public class GridManager : MonoBehaviour
                     xPos += xOffset / 2;
                 }
 
-                bool isWaterTile = ((x == 1 && y % 2 == 0 && y != 0 && y <=16) || (x == 1 && (y == 17 || y == 3)) || (y == 1 || x != 4 && x != 3 && y == 2 || y == 0) || (x == 12 && y % 2 == 0) || (y == 17 || y == 18) || (x <= 4 && x >= 7 && (y == 15 || y ==16)) || (x == 11 && y == 16 || y == 15));
-                bool isMountainTile = ((x == 0 && y == 0) || (x == 0 && y >= 1 && y <= 17) || x ==13 || (x == 12 && y % 2 != 0));
-                Tile tileToSpawn = isWaterTile ? _waterTile : (x == 10 && y == 7 || x == 10 && y == 8 || x == 11 && y == 8 || x == 9 && y == 12 || x == 9 && y == 10 || x == 7 && y == 15 || x == 8 && y == 16 || isMountainTile) ? _mountainTile : _grassTile;
+                // Your complex conditions for water and mountain tiles.
+                bool isWaterTile = ((x == 1 && y % 2 == 0 && y != 0 && y <= 16) 
+                                    || (x == 1 && (y == 17 || y == 3)) 
+                                    || (y == 1 || (x != 4 && x != 3 && y == 2) || y == 0) 
+                                    || (x == 12 && y % 2 == 0) 
+                                    || (y == 17 || y == 18) 
+                                    || (x <= 4 && x >= 7 && (y == 15 || y == 16)) 
+                                    || (x == 11 && (y == 16 || y == 15)));
+                bool isMountainTile = ((x == 0 && y == 0) 
+                                       || (x == 0 && y >= 1 && y <= 17) 
+                                       || x == 13 
+                                       || (x == 12 && y % 2 != 0));
+                // Use a clear ternary chain.
+                Tile tileToSpawn = isWaterTile ? _waterTile : isMountainTile ? _mountainTile : _grassTile;
 
-                var spawnedTile = Instantiate(tileToSpawn, new Vector3(xPos-7.64f, yPos-4.21f, 0), Quaternion.identity);
+                var spawnedTile = Instantiate(tileToSpawn, new Vector3(xPos - 7.64f, yPos - 4.21f, 0), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
+                spawnedTile.Init(x, y);
 
-                spawnedTile.Init(x,y);
+                // Explicitly assign tile type.
+                if (isWaterTile)
+                    spawnedTile.tileType = Tile.TileType.Water;
+                else if (isMountainTile)
+                    spawnedTile.tileType = Tile.TileType.Mountain;
+                else
+                    spawnedTile.tileType = Tile.TileType.Grass;
+
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
         //_cam.transform.position = new Vector3((float)_width/2, (float)_height / 2 - 0.5f, -10);
 
-
-        gameManager.Instance.ChangeState(GameState.SpawnUnit);
+        // Delay fog initialization until after grid is built.
         StartCoroutine(DelayedFogInit());
-
     }
 
     public Tile GetUnitSpawnTile()
     {
-        int leftBoundary = 1;                           
-        int rightBoundary = (_width / 3) - 1;           
-        int topBoundary = 1;                            
-        int bottomBoundary = _height - 2;                
+        int leftBoundary = 1;
+        int rightBoundary = (_width / 3) - 1;
+        int topBoundary = 1;
+        int bottomBoundary = _height - 2;
 
         return _tiles
             .Where(t =>
-                t.Key.x >= leftBoundary && t.Key.x <= rightBoundary &&  
-                t.Key.y >= topBoundary && t.Key.y <= bottomBoundary &&  
-                t.Value.walkable &&                                    
-                !(t.Key.x == 3 && t.Key.y == 10)                       
+                t.Key.x >= leftBoundary && t.Key.x <= rightBoundary &&
+                t.Key.y >= topBoundary && t.Key.y <= bottomBoundary &&
+                t.Value.walkable &&
+                !(t.Key.x == 3 && t.Key.y == 10)
             )
             .OrderBy(t => Random.value)
             .FirstOrDefault().Value;
     }
 
-
-    //public Tile GetUnitSpawnTile()
-    //{
-    //    return _tiles.Where(t => t.Key.x < _width / 3 && t.Value.walkable && !(t.Key.x == 3 && t.Key.y == 10)).OrderBy(t => Random.value).First().Value;
-    //}
-
     public Tile GetNPCUnitSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.walkable && !(t.Key.x == 10 && t.Key.y == 13)).OrderBy(t => Random.value).First().Value;
+        return _tiles
+            .Where(t => t.Key.x > _width / 2 && t.Value.walkable && !(t.Key.x == 10 && t.Key.y == 13))
+            .OrderBy(t => Random.value)
+            .First().Value;
     }
 
     public Tile GetTileAtPosition(int x, int y)
@@ -98,11 +112,13 @@ public class GridManager : MonoBehaviour
     {
         
     }
+
     private IEnumerator DelayedFogInit()
     {
         yield return new WaitForSeconds(0.1f); // give Unity a frame to catch up
 
-        foreach (var tile in FindObjectsOfType<Tile>())
+        // Only initialize fog on grass tiles.
+        foreach (var tile in FindObjectsOfType<grassTile>())
         {
             tile.isRevealed = false;
             tile.isVisible = false;
@@ -110,6 +126,6 @@ public class GridManager : MonoBehaviour
         }
 
         gameManager.Instance.RevealTilesAroundUnits();
+        gameManager.Instance.ChangeState(GameState.SpawnUnit);
     }
-
 }

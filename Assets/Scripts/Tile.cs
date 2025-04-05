@@ -4,17 +4,21 @@ using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
 {
+    // NEW: Tile type enum and field.
+    public enum TileType { Grass, Water, Mountain }
+    public TileType tileType;
+
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
     [SerializeField] private GameObject _AttackHighlight;
     [SerializeField] private bool _isWalkable;
 
     public baseUnit OccupiedUnit;
-    
     public bool walkable => _isWalkable && OccupiedUnit == null;
 
     public virtual void Init(int x, int y)
     {
+        // Optionally, store grid coordinates if needed.
     }
 
     private bool isHighlighted = false;
@@ -43,7 +47,6 @@ public abstract class Tile : MonoBehaviour
 
         if (OccupiedUnit != null)
         {
-            //Debug.Log("AHHHHHHHHHHHHHHHHHHHH" + " " + OccupiedUnit.Faction);
             if (OccupiedUnit.Faction == Faction.Player)
             {
                 unitManager.Instance.setSelectedPlayerUnit((basePlayerUnit)OccupiedUnit);
@@ -96,12 +99,12 @@ public abstract class Tile : MonoBehaviour
 
     public void SetUnit(baseUnit unit)
     {
-        if (unit.OccuppiedTile != null) unit.OccuppiedTile.OccupiedUnit = null;
+        if (unit.OccuppiedTile != null)
+            unit.OccuppiedTile.OccupiedUnit = null;
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccuppiedTile = this;
         gameManager.Instance.RevealTilesAroundUnits();
-
     }
 
     public bool IsWithinMoveRange(Tile currentTile, Tile targetTile)
@@ -132,7 +135,6 @@ public abstract class Tile : MonoBehaviour
             {
                 if (tile.OccupiedUnit != null && tile.OccupiedUnit.Faction != unit.Faction)
                 {
-                    //Debug.Log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH "+"Enemy unit found, highlighting attack tile");
                     tile._AttackHighlight.SetActive(true);
                 }
                 else if (tile.walkable)
@@ -158,9 +160,9 @@ public abstract class Tile : MonoBehaviour
 
     public bool isRevealed = false;
     public bool isVisible = false;
-    public GameObject fogOverlay; // Drag a dark semi-transparent UI sprite over each tile in the editor
+    public GameObject fogOverlay; // Drag a dark semi-transparent sprite over each tile in the editor
 
-  public void UpdateFog()
+    public void UpdateFog()
     {
         if (fogOverlay != null && fogOverlay.GetComponent<SpriteRenderer>() != null)
         {
@@ -168,6 +170,4 @@ public abstract class Tile : MonoBehaviour
             fogOverlay.SetActive(shouldBeActive);
         }
     }
-
-
 }

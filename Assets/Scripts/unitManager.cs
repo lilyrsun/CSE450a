@@ -15,7 +15,8 @@ public class unitManager : MonoBehaviour
 
     private Dictionary<string, int> unitCosts = new Dictionary<string, int>
     {
-        { "playerKnight", 20 }
+        { "playerKnight", 20 },
+        { "playerArcher", 25 }
     };
 
     private void Awake()

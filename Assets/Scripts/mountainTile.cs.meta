@@ -3,7 +3,12 @@ guid: 5952b28623b74c8499367d0dc37665da
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _renderer: {instanceID: 0}
+  - _highlight: {instanceID: 0}
+  - _AttackHighlight: {instanceID: 0}
+  - OccupiedUnit: {instanceID: 0}
+  - fogOverlay: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

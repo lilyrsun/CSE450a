@@ -42,14 +42,19 @@ public class GridManager : MonoBehaviour
                                     || (y == 1 || (x != 4 && x != 3 && y == 2) || y == 0) 
                                     || (x == 12 && y % 2 == 0) 
                                     || (y == 17 || y == 18) 
-                                    || (x <= 4 && x >= 7 && (y == 15 || y == 16)) 
+                                    || (x >= 4 && x <= 6 && (y == 15 || y == 16)) 
+                                    || (x == 7 && y == 16)
+                                    || ((x == 6) && (y >=7 && y<=10))  
+                                    || (x == 5 && y == 9)
+                                    || (x == 7 && y == 8)
                                     || (x == 11 && (y == 16 || y == 15)));
                 bool isMountainTile = ((x == 0 && y == 0) 
                                        || (x == 0 && y >= 1 && y <= 17) 
                                        || x == 13 
-                                       || (x == 12 && y % 2 != 0));
+                                       || (x == 12 && y % 2 != 0))|| (x==7 && y ==15) || (x==8 && y ==16) || (x==9 && y ==10) || (x==9 && y ==12) || (x==10 && y ==8) || (x == 10 && y == 8) || (x == 10 && y == 7) || (x == 10 && y == 8) || (x == 11 && y == 8);
                 // Use a clear ternary chain.
                 Tile tileToSpawn = isWaterTile ? _waterTile : isMountainTile ? _mountainTile : _grassTile;
+                
 
                 var spawnedTile = Instantiate(tileToSpawn, new Vector3(xPos - 7.64f, yPos - 4.21f, 0), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
@@ -62,6 +67,11 @@ public class GridManager : MonoBehaviour
                     spawnedTile.tileType = Tile.TileType.Mountain;
                 else
                     spawnedTile.tileType = Tile.TileType.Grass;
+
+                if ((x == 0 && y >= 0 && y <= 16) || (x ==1 && y == 0) || (x == 12 && y == 18) || (x ==12 && y % 2 != 0) || (x > 12))
+                {
+                    spawnedTile.gameObject.SetActive(false);
+                }
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
@@ -118,8 +128,8 @@ public class GridManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // give Unity a frame to catch up
 
         // Only initialize fog on grass tiles.
-        foreach (var tile in FindObjectsOfType<grassTile>())
-        {
+        foreach (var tile in FindObjectsOfType<Tile>())
+        {   
             tile.isRevealed = false;
             tile.isVisible = false;
             tile.UpdateFog();

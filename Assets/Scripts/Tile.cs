@@ -82,7 +82,7 @@ public abstract class Tile : MonoBehaviour
                 unitManager.Instance.SelectedBasePlayerUnit != unitManager.Instance.SpawnedTownHall &&
                 !unitManager.Instance.SelectedBasePlayerUnit.hasMoved)
             {
-                if (IsWithinMoveRange(unitManager.Instance.SelectedBasePlayerUnit.OccuppiedTile, this))
+                if (IsWithinMoveRange(unitManager.Instance.SelectedBasePlayerUnit.OccuppiedTile, this) && walkable)
                 {
                     SetUnit(unitManager.Instance.SelectedBasePlayerUnit);
                     unitManager.Instance.SelectedBasePlayerUnit.hasMoved = true;
@@ -155,6 +155,7 @@ public abstract class Tile : MonoBehaviour
             tile._highlight.SetActive(false);
             tile._AttackHighlight.SetActive(false); // Reset enemy highlight
             tile.isHighlighted = false;
+
         }
     }
 

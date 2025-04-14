@@ -68,7 +68,7 @@ public class GridManager : MonoBehaviour
                 else
                     spawnedTile.tileType = Tile.TileType.Grass;
 
-                if ((x == 0 && y >= 0 && y <= 16) || (x ==1 && y == 0) || (x == 12 && y == 18) || (x ==12 && y % 2 != 0) || (x > 12))
+                if ((x == 0 && y >= 0 && y <= 18) || (x ==1 && y == 0) || (x == 12 && y == 18) || (x ==12 && y % 2 != 0) || (x > 12) || (x == 1 && y ==18))
                 {
                     spawnedTile.gameObject.SetActive(false);
                 }

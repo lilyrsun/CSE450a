@@ -54,9 +54,12 @@ public class baseNPCUnit : baseUnit
         if (bestTile != null && bestTile.walkable)
         {
             Vector2 pos = bestTile.transform.position;
-            if ((int)pos.x == 10 && (int)pos.y == 12)
+            int posX = Mathf.RoundToInt(pos.x);
+            int posY = Mathf.RoundToInt(pos.y);
+
+            if (posX == 10 && posY == 12)
             {
-                return; 
+                return;
             }
             currentTile.OccupiedUnit = null;
             Debug.Log("Moving to " + bestTile + "!");

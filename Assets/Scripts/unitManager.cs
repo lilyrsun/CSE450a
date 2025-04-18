@@ -100,7 +100,7 @@ public class unitManager : MonoBehaviour
     }
 
     public void SpawnFriendlyUnit() {
-        if (gameManager.Instance.gold >= spawnUnitCost)
+        if (gameManager.Instance.gold >= spawnUnitCost && spawnUnitCost <= 2000000)
         {
             gameManager.Instance.gold -= spawnUnitCost;
             spawnUnitCost = Mathf.RoundToInt(spawnUnitCost * 1.5f);

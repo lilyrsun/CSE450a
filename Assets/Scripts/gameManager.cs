@@ -17,6 +17,7 @@ public class gameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI goldDisplay;
     public int turnTrack = 1;
     public int spawnTrack = 5;
+    public int upCount = 0;
 
     public GameObject PlayAgainButton;
     public GameObject GameOverPanel;  
@@ -156,6 +157,17 @@ public class gameManager : MonoBehaviour
                 buttonText.text = "Recruit Unit (" + unitManager.Instance.spawnUnitCost.ToString() + ")";
             }
         }
+        if (SpawnFriendlyUnitButton != null)
+        {
+            TextMeshProUGUI buttonText = SpawnFriendlyUnitButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                if (unitManager.Instance.spawnUnitCost >= 2000000)
+                {
+                    buttonText.text = "MAX";
+                }
+            }
+        }
     }
     private void AddGold()
     {
@@ -166,6 +178,7 @@ public class gameManager : MonoBehaviour
         gold -= maintenanceCost;
 
         if (gold < 0) gold = 0;
+        if (gold >= 2000000) gold = 2000000;
 
         UpdateGoldUI();
         Debug.Log($"Turn Gold: +{goldPerTurn}, Maintenance: -{maintenanceCost}, Total Gold: {gold}");
@@ -176,13 +189,22 @@ public class gameManager : MonoBehaviour
 
     public void UpgradeGold()
     {
-        if (gold >= upgradeGoldCost)
+        if (gold >= upgradeGoldCost && upCount <= 17)
         {
             gold -= upgradeGoldCost;
             goldPerTurn *= 2;
             upgradeGoldCost = Mathf.RoundToInt(upgradeGoldCost * 1.5f);
             UpdateGoldUI();
             UpdateUpgradeButtonDisplay();
+            upCount++;
+        }
+        if (upCount >= 18)
+        {
+            TextMeshProUGUI buttonText = UpgradeGoldButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "MAX";
+            }
         }
     }
 

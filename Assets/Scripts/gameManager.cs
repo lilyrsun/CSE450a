@@ -156,7 +156,14 @@ public class gameManager : MonoBehaviour
             TextMeshProUGUI buttonText = UpgradeGoldButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = "2x Gold (" + upgradeGoldCost.ToString() + ")";
+                if (upCount >= 18)
+                {
+                    buttonText.text = "MAX";
+                }
+                else
+                {
+                    buttonText.text = "2x Gold (" + upgradeGoldCost.ToString() + ")";
+                }
             }
         }
 

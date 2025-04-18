@@ -53,6 +53,8 @@ public abstract class Tile : MonoBehaviour
                 if (!OccupiedUnit.hasMoved)
                 {
                     HighlightMoveableTiles(OccupiedUnit);
+
+                    gameManager.Instance.PlaySound(gameManager.Instance.selectUnitClip);
                 }
             }
             else
@@ -72,6 +74,8 @@ public abstract class Tile : MonoBehaviour
                         unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                         unitManager.Instance.setSelectedPlayerUnit(null);
                         ClearHighlightedTiles();
+
+                        gameManager.Instance.PlaySound(gameManager.Instance.attackUnitClip);
                     }
                 }
             }
@@ -92,6 +96,8 @@ public abstract class Tile : MonoBehaviour
                     unitManager.Instance.SelectedBasePlayerUnit.hasAttacked = true;
                     unitManager.Instance.setSelectedPlayerUnit(null);
                     ClearHighlightedTiles();
+
+                    gameManager.Instance.PlaySound(gameManager.Instance.moveUnitClip);
                 }
             }
         }

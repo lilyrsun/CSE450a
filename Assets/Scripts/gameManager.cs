@@ -21,7 +21,12 @@ public class gameManager : MonoBehaviour
 
     public GameObject PlayAgainButton;
     public GameObject GameOverPanel;  
-    public TextMeshProUGUI GameOverText;  
+    public TextMeshProUGUI GameOverText;
+
+    public AudioClip moveUnitClip;
+    public AudioClip selectUnitClip;
+    public AudioClip attackUnitClip;
+    private AudioSource audioSource;
 
     public Button EndTurnButton, UpgradeGoldButton, SpawnFriendlyUnitButton;
 
@@ -33,6 +38,12 @@ public class gameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         if (PlayAgainButton != null) {
             PlayAgainButton.SetActive(false);
@@ -291,7 +302,13 @@ public class gameManager : MonoBehaviour
         }
     }
 
-
+    public void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
 }
 
 public enum GameState

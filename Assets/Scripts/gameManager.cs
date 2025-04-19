@@ -19,6 +19,12 @@ public class gameManager : MonoBehaviour
     public int spawnTrack = 5;
     public int upCount = 0;
 
+    public Button HealCityButton;
+    private int healCityCost = 100;
+
+    public Button smiteEnemyButton;
+    private int smiteEnemyCost = 200;
+
     public GameObject PlayAgainButton;
     public GameObject GameOverPanel;  
     public TextMeshProUGUI GameOverText;
@@ -232,6 +238,27 @@ public class gameManager : MonoBehaviour
         {
             goldDisplay.text = $"Gold: {gold}";
         }
+
+        if (smiteEnemyButton != null)
+        {
+            smiteEnemyButton.interactable = (gold >= smiteEnemyCost);
+        }
+
+        if (HealCityButton != null)
+        {
+            HealCityButton.interactable = (gold >= healCityCost);
+        }
+
+        if (UpgradeGoldButton != null)
+        {
+            UpgradeGoldButton.interactable = (gold >= upgradeGoldCost && upCount < 18);
+        }
+
+        if (SpawnFriendlyUnitButton != null)
+        {
+            SpawnFriendlyUnitButton.interactable = (gold >= unitManager.Instance.spawnUnitCost &&
+                                                    unitManager.Instance.spawnUnitCost < 2000000);
+        }
     }
 
     private void MoveAllNPCs()
@@ -314,6 +341,82 @@ public class gameManager : MonoBehaviour
         if (audioSource != null && clip != null)
         {
             audioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void HealCity() {
+        if (gold >= healCityCost)
+        {
+            gold -= healCityCost;
+
+            if (unitManager.Instance.SpawnedTownHall != null)
+            {
+                var townHall = unitManager.Instance.SpawnedTownHall;
+                townHall.Health.heal(townHall.Health.getMaxHealth());
+                townHall.UpdateHealthBar();
+                Debug.Log("Town Hall fully healed!");
+            }
+
+            healCityCost *= 10;
+            UpdateHealCityButtonDisplay();
+            UpdateGoldUI();
+        }
+        else {
+            Debug.Log("Not enough gold to heal the city!");
+        }
+    }
+
+    public void SmiteEnemyKnight()
+    {
+        if (gold >= smiteEnemyCost)
+        {
+            var allEnemies = FindObjectsOfType<baseNPCUnit>()
+                .Where(unit => !(unit is NPCTownHall))
+                .ToList();
+
+            if (allEnemies.Count == 0)
+            {
+                Debug.Log("No enemy knights left to smite!");
+                return;
+            }
+
+            gold -= smiteEnemyCost;
+            smiteEnemyCost *= 10;
+            UpdateGoldUI();
+            UpdateSmiteEnemyButtonDisplay();
+
+            var enemyToDestroy = allEnemies[UnityEngine.Random.Range(0, allEnemies.Count)];
+            Destroy(enemyToDestroy.gameObject);
+            Debug.Log("⚡ Smote an enemy knight!");
+
+            CheckGameOver();
+        }
+        else
+        {
+            Debug.Log("Not enough gold to smite an enemy.");
+        }
+    }
+
+    public void UpdateHealCityButtonDisplay() {
+        if (HealCityButton != null)
+        {
+            var buttonText = HealCityButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Heal City (" + healCityCost + ")";
+            }
+        }
+    }
+
+    public void UpdateSmiteEnemyButtonDisplay()
+    {
+        if (smiteEnemyButton != null)
+        {
+            var buttonText = smiteEnemyButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Smite Enemy (" + smiteEnemyCost + ")";
+            }
         }
     }
 }

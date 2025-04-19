@@ -176,5 +176,15 @@ public abstract class Tile : MonoBehaviour
             bool shouldBeActive = !isVisible && !isRevealed;
             fogOverlay.SetActive(shouldBeActive);
         }
+
+        if (OccupiedUnit != null)
+        {
+            var canvas = OccupiedUnit.GetComponentInChildren<Canvas>();
+            if (canvas != null)
+            {
+                canvas.enabled = isVisible || isRevealed;
+            }
+        }
+
     }
 }
